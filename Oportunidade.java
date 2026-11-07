@@ -1,19 +1,20 @@
+
 public class Oportunidade {
-    // Atributos
-    private String    titulos;
-    private int       vagas         = 1;
-    private int       classificados = 0;
-    private boolean   aberta        = true;
+    
+    private String titulos;
+    private int vagas;
+    private int classificados = 0;
+    private boolean aberta = true;
     private Professor responsavel;
 
-    // Construtor
+    
     public Oportunidade(String titulos, int vagas, Professor responsavel) {
-        this.titulos     = titulos;
-        this.vagas       = (vagas >= 1) ? vagas : 1;
+        this.titulos = titulos;
+        this.vagas = (vagas >= 1) ? vagas : 1;
         this.responsavel = responsavel;
     }
 
-    // Getters
+
     public String getTitulos() {
         return this.titulos;
     }
@@ -34,21 +35,42 @@ public class Oportunidade {
         return this.responsavel;
     }
 
-    // Métodos
     public void encerrar() {
-        //pass
+        aberta = false;
     }
 
-    public void inscrever(estudante) {
-        //pass
+    public Inscricao inscrever(Estudante estudante) {
+        if (!aberta) {
+            return null;
+        }
+        return new Inscricao(estudante, this);
     }
 
-    public void registrarClassificacao() {
-        //pass
+    public boolean registrarClassificacao() {
+        if (classificados >= vagas) {
+            return false;
+        }
+        classificados++;
+        return true;
+    }
+
+    public void removerClassificacao() {
+        if (classificados > 0) {
+            classificados--;
+        }
     }
 
     @Override
     public String toString() {
-        return null;
+        String nomeResponsavel = responsavel == null
+                ? "não informado"
+                : responsavel.getNome();
+
+        return "Oportunidade: " + titulos
+                + ", Vagas: " + vagas
+                + ", Classificados: " + classificados
+                + ", Aberta: " + aberta
+                + ", Responsável: " + nomeResponsavel;
     }
 }
+
